@@ -2,6 +2,13 @@ import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import './App.css';
 
+// Here's where the issue lays. Calling this function without passing any parameter
+// makes a call to Object.keys(undefined)
+// Change `parameters` to `(parameters = {})` to avoid the bug
+const advancedSearchToRestApi = parameters => (
+  Object.keys(parameters).reduce((result, key) => result.push(key), [])
+);
+
 class App extends Component {
   state = {
     name: 'issue7445',
@@ -9,6 +16,7 @@ class App extends Component {
 
   render() {
     const { name } = this.state;
+    advancedSearchToRestApi();
     return (
       <div className="App">
         <h1>
